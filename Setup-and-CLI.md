@@ -30,7 +30,7 @@ mx --dy trufflesqueak,/compiler build
 
 ## Run
 
-To run a image, we use the built artifacts. You can run an image it with the following command:
+To run an image, we use the built artifacts. You can run an image with the following command:
 
 ```bash
 $GRAALVM_HOME/bin/trufflesqueak images/test-64bit.image 
