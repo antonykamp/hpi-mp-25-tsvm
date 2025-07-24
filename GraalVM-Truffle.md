@@ -22,7 +22,7 @@
 ### Just-In-Time Compiler (JIT)
 
 - A Just-In-Time (JIT) compiler is a component of the JVM.
-- Compiles section of Java bytecode at interpreter runtime [4,7,8]
+- Compiles sections of Java bytecode at interpreter runtime [4,7,8]
 
 ## Truffle Language Implementation
 
