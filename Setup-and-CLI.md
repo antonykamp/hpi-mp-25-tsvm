@@ -75,7 +75,7 @@ You can find the dumped IR in the `trufflesqueak/graal_dumps` directory. Each fi
 
 ### Test
 
-To run a Squeak unittest tests, you can use the following command. In this example, we run the `BitmapStreamTests>>testShortIntegerArrayWithSmartRefStreamOnDisk` test:
+To run a Squeak unittest test, you can use the following command. In this example, we run the `BitmapStreamTests>>testShortIntegerArrayWithSmartRefStreamOnDisk` test:
 
 ```bash
 ../mx/mx  --env trufflesqueak-jvm unittest --use-graalvm -DsqueakTests="BitmapStreamTests>>testShortIntegerArrayWithSmartRefStreamOnDisk" SqueakSUnitTest
