@@ -22,7 +22,7 @@
 ### Just-In-Time Compiler (JIT)
 
 - A Just-In-Time (JIT) compiler is a component of the JVM.
-- Compiles section of Java bytecode at interpreter runtime [4,7]
+- Compiles section of Java bytecode at interpreter runtime [4,7,8]
 
 ## Truffle Language Implementation
 
@@ -73,7 +73,7 @@ Given a JVM bytecode, you can use GraalVM to run and optimize it. The FMC diagra
 ### Java Virtual Machine Compiler Interface (JVMCI)
 
 - The JVMCI is an API that allows any compiler to be used as a JIT compiler for C1 and C2.
-- This enables the integration of Graal's advanced optimization techniques into the JVM [5,7].
+- This enables the integration of Graal's advanced optimization techniques into the JVM [5,7,8].
 
 ### GraalVM
 
@@ -111,3 +111,4 @@ In our project, we implemented Squeak / Smalltalk as a guest language using the 
 - [5] [One VM to Rule Them All, Wurthinger, 2013](https://www.researchgate.net/publication/262170315_One_VM_to_rule_them_all)
 - [6] [Exploratory tool-building platforms for polyglot virtual machines, Niephaus, 2022](https://publishup.uni-potsdam.de/frontdoor/index/index/docId/57177)
 - [7] [Deep Dive Into the New Java JIT Compiler – Graal](https://www.baeldung.com/graal-java-jit-compiler)
+- [8] [Developers disassemble! Use Java and hsdis to see it all.](https://blogs.oracle.com/javamagazine/post/java-hotspot-hsdis-disassembler)
