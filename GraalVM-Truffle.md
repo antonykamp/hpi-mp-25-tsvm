@@ -22,7 +22,7 @@
 ### Just-In-Time Compiler (JIT)
 
 - A Just-In-Time (JIT) compiler is a component of the JVM.
-- Compiles sections of Java bytecode at interpreter runtime [4,7,8]
+- Compiles section of Java bytecode at interpreter runtime to machine code and executes it [4,7,8]
 
 ## Truffle Language Implementation
 
@@ -34,7 +34,7 @@ The FMC diagram visualizes the Truffle language implementation processing.
 
 ### Truffle Framework
 
-- Truffle is a framework, which provides APIs to create language interpreters and compilers.
+- Truffle is a Java-based framework, which provides APIs to create language interpreters and compilers.
 - The resulting applications run on the GraalVM [1,2,5].
 
 ### Guest Language Implementation
@@ -74,11 +74,15 @@ Given a JVM bytecode, you can use GraalVM to run and optimize it. The FMC diagra
 
 - The JVMCI is an API that allows any compiler to be used as a JIT compiler for C1 and C2.
 - This enables the integration of Graal's advanced optimization techniques into the JVM [5,7,8].
+- HotSpotVM allows the replacement of the C1 and C2 compilers with the JVMCI.
 
 ### GraalVM
 
-- GraalVM is a high-performance runtime that includes a JIT compiler for optimizing Java bytecode [1,5].
-- It applies advanced and speculative optimizations.
+- GraalVM is a JVM that is based on the HotSpotVM.
+- It is a high-performance runtime that includes a JIT compiler for optimizing Java bytecode [1,5].
+- Replaces the C1 and C2 compilers in the HotSpotVM with the Graal Compiler.
+- Support tiered compilation.
+- It applies aggressive and speculative optimizations.
 
 ### GraphBuilder
 
@@ -96,11 +100,11 @@ Given a JVM bytecode, you can use GraalVM to run and optimize it. The FMC diagra
 - The IGV is a tool that allows developers to visualize the IR of the code during different phases of the compilation process.
 - It provides insights into how the GraalVM optimizes the code and helps in debugging and performance tuning [3].
 
-Besides the JVM mode, GraalVM also supports the Native Image mode, which allows you to compile Java applications into native executables [4].
+Besides the JVM mode, GraalVM also supports the Native Image mode, which allows you to compile Java applications into native executables. It equals the functionality of a traditional AOT compiler [4].
 
 ## Examples
 
-In our project, we implemented Squeak / Smalltalk as a guest language using the Truffle framework. An image is the guest language application that is executed by the Guest Language Interpreter [2,6].  
+In our project, we worked on TruffleSqueak which is the implementation of Squeak / Smalltalk as a guest language using the Truffle framework. An image is the guest language application that is executed by the Guest Language Interpreter [2,6].
 
 ## Resources
 
