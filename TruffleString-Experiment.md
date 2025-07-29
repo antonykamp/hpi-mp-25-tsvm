@@ -72,10 +72,23 @@ In the first experiment, we replaced the `byte[]` storage of `ByteString`  with 
 ### Results
 
 <!-- Performance decreased -->
+
+
+Let's compare the results of the first experiment with the baseline performance:
+
+| Metric       | Baseline  | Experiment 1 |
+| ------------ | --------- | ------------ |
+| Average Time | 201.466ms | 327.14ms     |
+| Minimum Time | 173 ms    | 291 ms       |
+| Maximum Time | 1 532 ms  | 2 883    ms  |
+| Summary Time | 60 440 ms | 98 142    ms |
+
+We can see that the performance of the first experiment decreased compared to the baseline. The average time increased from 201.466ms to 327.14ms, and the maximum time increased significantly from 1 532ms to 2 883ms.
+
+### Discussion
 <!-- Codesize increased -->
 <!-- Compilation time and code size of string comparisons increased -->
 
-### Discussion
 <!-- Issue: Provide for each permutation of string types a separate method to avoid the overhead of type checks -->
 <!-- Reduce permutation by replacing ByteArrays with TruffleString -->
 
@@ -90,12 +103,25 @@ In the second experiment, we extended the implementation of the first experiment
 ### Results
 
 <!-- Performance improved to v1 -->
+Let's compare the results of the second experiment with the baseline performance and the first experiment:
+
+| Metric       | Baseline  | Experiment 1 | Experiment 2 |
+| ------------ | --------- | ------------ | ------------ |
+| Average Time | 201.466ms | 327.14ms     | 292.2ms      |
+| Minimum Time | 173 ms    | 291 ms       | 261  ms      |
+| Maximum Time | 1 532 ms  | 2 883    ms  | 2 393  ms    |
+| Summary Time | 60 440 ms | 98 142    ms | 87 660  ms   |
+
+We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327.14ms to 292.2ms, and the maximum time decreased from 2 883ms to 2 393ms.
+
+In comparison to the baseline performance, the second experiment still shows a performance decrease, but it is an improvement over the first experiment.
+
+### Discussion
+
 <!-- Codesize decreased to v1 -->
 
 <!-- Performance decreased compared to original -->
 <!-- Compilation time and code size of string comparisons decreased -->
-
-### Discussion
 
 <!-- Issue: Cannot use cool TruffleString features like substring, indexOf, etc. -->
 <!-- Only use byte wise operations (read & write) because squeak does the operation by it self -->
