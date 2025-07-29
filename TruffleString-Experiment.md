@@ -272,7 +272,6 @@ To fully leverage the capabilities of `TruffleString`, we would need to add high
 
 ## 6. References
 
-Last accessed: 2025-07-29
 
 - [1] [LCTLCT (Legendary compilation trace log comparison tool)](https://github.com/Olliwehr/LCTLCT)
 - [2] [Optimizing Truffle Interpreters](https://github.com/oracle/graal/blob/master/truffle/docs/Optimizing.md)
@@ -281,3 +280,5 @@ Last accessed: 2025-07-29
 - [5] [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232)
 - [6] [Exploratory tool-building platforms for polyglot virtual machines, Niephaus, 2022](https://publishup.uni-potsdam.de/frontdoor/index/index/docId/57177)
 - [7] [TruffleString Documentation](https://github.com/oracle/graal/blob/master/truffle/docs/TruffleStrings.md)
+
+Last visited: 2025-07-29
