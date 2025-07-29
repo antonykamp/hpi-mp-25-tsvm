@@ -25,7 +25,7 @@ We want to investigate if we can improve the performance of string operations by
 <!-- Run on Antonys Computer -->
 <!-- Results -->
 
-To compare the performance of string operations, we decided to use the `JSON Benchmark` from the "Are We Fast Yet?" framework. We measure the time needed to parse 100 JSON strings and convert them into a Smalltalk object. We run the benchmark 300 times to ensure consistent results and to account for any warm-up effects.
+To compare the performance of string operations, we decided to use the `JSON Benchmark` from the "Are We Fast Yet?" framework, because it includes allot of string operations. We measure the time needed to parse 100 JSON strings and convert them into a Smalltalk object. We run the benchmark 300 times to ensure consistent results and to account for any warm-up effects.
 
 The command to run the benchmark is as follows:
 
@@ -73,7 +73,7 @@ In the first experiment, we replaced the `byte[]` storage of `ByteString` with `
 
 <!-- Performance decreased -->
 
-
+We ran the JSON benchmark again with the modified implementation. The command to run the benchmark remains the same.
 Let's compare the results of the first experiment with the baseline performance:
 
 | Metric       | Baseline (ms) | Experiment 1 (ms) | Change (%) |
@@ -86,19 +86,86 @@ Let's compare the results of the first experiment with the baseline performance:
 We can see that the performance of the first experiment decreased compared to the baseline. The average time increased from 201 ms to 327 ms, and the maximum time increased significantly from 1 532 ms to 2 883 ms.
 
 ### 2.3 Discussion
-<!-- Codesize increased -->
-<!-- Compilation time and code size of string comparisons increased -->
 
 <!-- Issue: Provide for each permutation of string types a separate method to avoid the overhead of type checks -->
 <!-- Reduce permutation by replacing ByteArrays with TruffleString -->
 
-## 3. Experiment 2: Replace ByteArray with TruffleString
+The significant performance degradation (62.4% increase in average time) requires investigation to understand the root causes and identify potential improvements for the next experiment. To investigate the performance degradation, we analyzed the compiler's behavior using:
+
+- **Compilation statistics** [2] to measure overall compilation time and code size
+- **Compilation trace logs** [2] to analyze the compilation process of methods
+- **LCTLCT (Legendary compilation trace log comparison tool)** [1] to compare compilation statistics and compilation traces between versions
+- **IGV (Ideal Graph Visualizer)** [3] to visualize compilation optimization steps
+
+The following table summarizes the compilation statistics for the first experiment compared to the baseline performance:
+
+| Metric           | Tier | Baseline      | Experiment 1  | Change (%) |
+| ---------------- | ---- | ------------- | ------------- | ---------- |
+| Compilation Time | 1    | 6 948 955 ms  | 8 333 508 ms  | +21% ⬆️     |
+| Compilation Time | 2    | 10 044 058 ms | 21 799 170 ms | +117% ⬆️    |
+| Code Size        | 1    | 304 688 bytes | 325 563 bytes | +6% ⬆️      |
+| Code Size        | 2    | 742 502 bytes | 946 422 bytes | +27% ⬆️     |
+
+The compilation statistics show that the code size increased significantly in the first experiment. The compilation time also increased, which indicates that the compiler had to do more work to optimize the code. Larger code size and longer compilation time can lead to slower runtime performance, as the compiler has to spend more time optimizing the code.
+
+Given the increased compilation time and code size, we want to improve it in the next experiment by identifying the causes of the performance degradation. We identified with the trace compilation logs and LCTLCT that the code size of the string comparison method `String>>#compareWith:` increased.
+
+The following table summarizes the code size of the `String>>#compareWith:` method for the baseline performance and the first experiment:
+
+| Metric    | Tier | Baseline    | Experiment 1 | Change (%) |
+| --------- | ---- | ----------- | ------------ | ---------- |
+| Code Size | 1    | 2 040 bytes | 10 840 bytes | +433% ⬆️    |
+| Code Size | 2    | 897 bytes   | 6 839 bytes  | +664% ⬆️    |
+
+This indicates that the method was significantly larger in the first experiment, which likely contributed to the performance degradation. With the help of the IGV, we could see that the method was not optimized well, leading to a larger code size and slower performance.
+
+The following pictures visualize the compilation graphs of the `String>>#compareWith:` method, showing the increased complexity in Experiment 1. The first image shows the compilation graph for the baseline performance, while the second image shows the compilation graph for the first experiment:
+
+![String>>#compareWith: Compilation Graph - Baseline](img/igv-original.png)
+
+![String>>#compareWith: Compilation Graph - Experiment 1](img/igv-experiment-1.png)
+
+
+The compilation steps diagram and the implementation of `String>>#compareWith:` shows, that the method increased, because we need to compare different types of strings now. The `String>>#compareWith:` method must handle all possible combinations of string types. In the baseline version, string comparisons involved these types:
+
+**Baseline (2 storage types):**
+
+- `ByteStrings`, `ByteSymbols` and `ByteArrays` (when used as strings): `byte[]` storage
+- `WideStrings`: `int[]` storage
+
+**Experiment 1 (3 storage types):**
+
+- `ByteStrings`: `TruffleString` storage
+- `WideStrings`: `int[]` storage  
+- `ByteSymbols` and `ByteArrays` (when used as strings): `byte[]` storage
+
+This increases the number of type permutations the compiler must optimize. For string comparison operations, the compiler must generate optimized code paths for each possible combination:
+
+**Baseline permutations (3 combinations):**
+
+- `byte[]` vs `byte[]`
+- `int[]` vs `int[]`
+- `byte[]` vs `int[]`
+
+**Experiment 1 permutations (6 combinations):**
+
+- `TruffleString` vs `TruffleString`
+- `TruffleString` vs `byte[]`
+- `TruffleString` vs `int[]`
+- `byte[]` vs `byte[]`
+- `byte[]` vs `int[]`
+- `int[]` vs `int[]`
+
+This leads to a larger code size and slower performance, as the compiler has to generate more code for each permutation.
+We can reduce the code size by replacing `ByteArrays` and `ByteSymbols` with `TruffleString`, because this reduces the number of permutations we have to provide methods for. This is the focus of the next experiment.
+
+## 3. Experiment 2: Replace ByteArray and ByteSymbols with TruffleString
 
 ### 3.1 Implementation
 
 <!-- Changed storage of ByteArray to TruffleString -->
 
-In the second experiment, we extended the implementation of the first experiment. We also replaced the `byte[]` storage of `ByteArray` with `TruffleString` and used the same TruffleString operations as in the first experiment on `ByteArray`.
+In the second experiment, we extended the implementation of the first experiment. We also replaced the `byte[]` storage of `ByteArray` and `ByteSymbol` with `TruffleString` and used the same TruffleString operations as in the first experiment on `ByteArray`.
 
 ### 3.2 Results
 
