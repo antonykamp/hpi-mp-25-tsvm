@@ -67,6 +67,7 @@ We expect to achieve the following:
 ### Implementation
 
 <!-- Changed storage of ByteStrings to TruffleString -->
+In the first experiment, we replaced the `byte[]` storage of `ByteString`  with `TruffleString`. With that change, we replaced byte operations with TruffleString operations.
 
 ### Results
 
@@ -83,6 +84,8 @@ We expect to achieve the following:
 ### Implementation
 
 <!-- Changed storage of ByteArray to TruffleString -->
+
+In the second experiment, we extended the implementation of the first experiment. We also replaced the `byte[]` storage of `ByteArray` with `TruffleString` and used the same TruffleString operations as in the first experiment on `ByteArray`.
 
 ### Results
 
