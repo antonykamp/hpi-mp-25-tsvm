@@ -14,7 +14,7 @@ This experiment focuses on the data representation of smalltalk objects in java.
 
 ![Primitive Object Representation, Example: `ClassObject`](img/graal-fmc-primitive.drawio.png)
 
-Non-primitive classes are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains a `storage` and `class` object. The `storage` contains the actual data, while the `class` object provides metadata about the object type.
+Non-primitive classes are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains a `storage` and `class` object. The `storage` contains the actual data, while the `class` object provides metadata about the object type. Different non-primitive classes have different storage types, such as `WideString` uses `int[]` and `ByteString` uses `byte[]`.
 
 ![Non-Primitive Object Representation, Example: `WideString`, `ByteArray`, `ByteString`](img/graal-fmc-nativeobject.drawio.png)
 
