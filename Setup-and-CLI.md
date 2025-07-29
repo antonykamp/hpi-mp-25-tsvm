@@ -30,11 +30,20 @@ mx --dy trufflesqueak,/compiler build
 
 ## Run
 
-To run an image, we use the built artifacts. You can run an image with the following command:
+You can run the TruffleSqueak executable with the following command:
 
 ```bash
-$GRAALVM_HOME/bin/trufflesqueak images/test-64bit.image 
+$GRAALVM_HOME/bin/trufflesqueak
 ```
+
+It will ask you to choose an image, it will download the image and run it. You can find the images in the `images` directory of the TruffleSqueak repository.
+You can also specify an image to run directly by providing the path to the image file:
+
+```bash
+$GRAALVM_HOME/bin/trufflesqueak images/test-64bit.image
+```
+
+If you don't specify an image, it will give you different image options to choose from. It'll download the image in the `images` directory if it doesn't exist.
 
 ## Debugging
 
@@ -45,6 +54,14 @@ To debug the image, add these flags to your *build* or *run* command:
 ```
 
 Connect your debugger to port 8000 to start troubleshooting your build process or image. We recommend using IntelliJ IDEA for debugging. You can find more information about setting up your IDE in the `mx` documentation [4].
+
+Alternatively, you can log the compilation process by adding the following flags to your *run* command:
+
+```bash
+--engine.TraceCompilation --engine.CompilationFailureAction=Print --engine.CompilationStatistics
+```
+
+More information about the compilation process can be found in the `truffle` documentation [6].
 
 ### Benchmark
 
@@ -88,5 +105,6 @@ To run a Squeak unittest test, you can use the following command. In this exampl
 - [3] [Getting Started with Oracle GraalVM](https://github.com/oracle/graal/blob/master/docs/getting-started/get-started.md)
 - [4] [MX IDE Setup](https://github.com/graalvm/mx/blob/master/docs/IDE.md)
 - [5] [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232)
+- [6] [Optimizing Truffle Interpreter](https://github.com/oracle/graal/blob/master/truffle/docs/Optimizing.md)
 
 State: 2025-07-24
