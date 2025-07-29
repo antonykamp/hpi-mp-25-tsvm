@@ -8,7 +8,7 @@
 <!-- How primitives and non primitives are represented -->
 <!-- TruffleString class and its role in the Truffle framework -->
 
-TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. Each Squeak object is represented as a Java object.
+TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. Each Squeak object is represented as a Java object.
 
 This experiment focuses on the data representation of Smalltalk objects in Java. We differentiate between primitives (i.e. `ClassObject`) and non-primitives (i.e. `ByteString`, `ByteArray`, etc.). Primitive classes have a direct mapping to Java classes.
 
@@ -25,7 +25,7 @@ We want to investigate if we can improve the performance of string operations by
 <!-- Run on Antonys Computer -->
 <!-- Results -->
 
-To compare the performance of string operations, we decided to use the `JSON Benchmark` from the "Are We Fast Yet?" framework, because it includes a lot of string operations. We measure the time needed to parse 100 JSON strings and convert them into a Smalltalk object. We run the benchmark 300 times to ensure consistent results and to account for any warm-up effects.
+To compare the performance of string operations, we decided to use the `JSON Benchmark` from the "Are We Fast Yet?" framework [5], because it includes a lot of string operations. We measure the time needed to parse 100 JSON strings and convert them into a Smalltalk object. We run the benchmark 300 times to ensure consistent results and to account for any warm-up effects.
 
 The command to run the benchmark is as follows:
 
@@ -53,7 +53,7 @@ The results of the benchmark are as follows:
 <!-- Improved performance for string operations -->
 <!-- Sideproduct: Improved interoperability with other languages -->
 
-Truffle offers a specialized string class called `TruffleString`, designed to optimize string operations and enhance performance through vector representation and parallelism.
+Truffle offers a specialized string class called `TruffleString`, designed to optimize string operations and enhance performance through vector representation and parallelism [7].
 
 The goal is to explore how the Truffle framework can optimize string operations and improve performance by leveraging the capabilities of the `TruffleString` class.
 
@@ -262,10 +262,22 @@ This has to be coordinated with the Squeak community, as it requires changes to 
 <!-- TruffleString is optimized for big strings and big operations -->
 We replaced in the first experiment the `ByteString` storage with `TruffleString`, which resulted in a performance decrease in the benchmark compared to the baseline performance by 62.4%. In the second experiment, we extended the implementation to also replace the `ByteArray` storage with `TruffleString`, which improved the performance compared to the first experiment by 10.7% but still did not reach the baseline performance.
 
-Reason for the performance decrease is that the `TruffleString` class is optimized for complex string operations that benefit from vector representation and parallelism. The current implementation of `TruffleString` does not leverage these optimizations effectively, because it uses simple byte-wise operations instead of more complex string operations. This is because of the atomicity of the existing Squeak primitives.
+Reason for the performance decrease is that the `TruffleString` class is optimized for complex string operations that benefit from vector representation and parallelism [4]. The current implementation of `TruffleString` does not leverage these optimizations effectively, because it uses simple byte-wise operations instead of more complex string operations. This is because of the atomicity of the existing Squeak primitives.
 
 ## 5. Future Work
 
 <!-- Idea: Would have to add (failing for OSVM) primitives to higher level functions to use the TruffleString features -->
 
 To fully leverage the capabilities of `TruffleString`, we would need to add higher-level primitives that utilize the advanced features of `TruffleString`, such as substring operations, indexOf, and other string manipulations. This would allow us to take advantage of the performance benefits provided by the Truffle framework.
+
+## 7. References
+
+Last accessed: 2025-07-29
+
+- [1] [LCTLCT (Legendary compilation trace log comparison tool)](https://github.com/Olliwehr/LCTLCT)
+- [2] [Optimizing Truffle Interpreters](https://github.com/oracle/graal/blob/master/truffle/docs/Optimizing.md)
+- [3] [Ideal Graph Visualizer (IGV)](https://www.graalvm.org/latest/tools/igv/)
+- [4] [TruffleString Performance](https://graalworkshop.github.io/2022/slides/4_TruffleStrings.pdf)
+- [5] [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232)
+- [6] [Exploratory tool-building platforms for polyglot virtual machines, Niephaus, 2022](https://publishup.uni-potsdam.de/frontdoor/index/index/docId/57177)
+- [7] [TruffleString Documentation](https://github.com/oracle/graal/blob/master/truffle/docs/TruffleStrings.md)
