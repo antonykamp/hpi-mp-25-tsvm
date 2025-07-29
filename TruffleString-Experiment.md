@@ -4,13 +4,13 @@
 
 ## 1. Introduction
 
-### 1.2 Background
+### 1.1 Background
 <!-- How primitives and non primitives are represented -->
 <!-- TruffleString class and its role in the Truffle framework -->
 
 TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. Each Squeak object is represented as a Java object.
 
-This experiment focuses on the data representation of smalltalk objects in java. We differentiate between primitives (i.e. `ClassObject`) and non-primitives (i.e. `ByteString`, `ByteArray`, etc.). Primitive classes have a direct mapping to Java classes.
+This experiment focuses on the data representation of Smalltalk objects in Java. We differentiate between primitives (i.e. `ClassObject`) and non-primitives (i.e. `ByteString`, `ByteArray`, etc.). Primitive classes have a direct mapping to Java classes.
 
 ![Primitive Object Representation, Example: `ClassObject`](img/graal-fmc-primitive.drawio.png)
 
@@ -20,7 +20,7 @@ Non-primitive classes are represented by Java objects of the class `NativeObject
 
 We want to investigate if we can improve the performance of string operations by leveraging tools provided by the Truffle framework.
 
-### 1.3 Baseline Performance
+### 1.2 Baseline Performance
 <!-- JSON Benchmark -->
 <!-- Run on Antonys Computer -->
 <!-- Results -->
@@ -38,18 +38,18 @@ We run the benchmark on a machine with the following specifications:
 - Apple MacBook Pro 2023
 - Chip: Apple M3 Pro
 - Memory: 16GB
-- Operating System: macOS Sequoia 15.4.1
+- Operating System: macOS Sequoia 15.4
 
 The results of the benchmark are as follows:
 
 | Metric       | Baseline  |
 | ------------ | --------- |
-| Average Time | 201.466ms |
+| Average Time | 201 ms    |
 | Minimum Time | 173 ms    |
 | Maximum Time | 1 532 ms  |
 | Summary Time | 60 440 ms |
 
-### 1.4 Experiment Goals
+### 1.3 Experiment Goals
 <!-- Improved performance for string operations -->
 <!-- Sideproduct: Improved interoperability with other languages -->
 
@@ -67,7 +67,7 @@ We expect to achieve the following:
 ### 2.1 Implementation
 
 <!-- Changed storage of ByteStrings to TruffleString -->
-In the first experiment, we replaced the `byte[]` storage of `ByteString`  with `TruffleString`. With that change, we replaced byte operations with TruffleString operations.
+In the first experiment, we replaced the `byte[]` storage of `ByteString` with `TruffleString`. With that change, we replaced byte operations with TruffleString operations.
 
 ### 2.2 Results
 
@@ -78,12 +78,12 @@ Let's compare the results of the first experiment with the baseline performance:
 
 | Metric       | Baseline (ms) | Experiment 1 (ms) | Change (%) |
 | ------------ | ------------- | ----------------- | ---------- |
-| Average Time | 201.466ms     | 327.14ms          | +62.4% ⬆️   |
+| Average Time | 201 ms        | 327 ms            | +62.4% ⬆️   |
 | Minimum Time | 173 ms        | 291 ms            | +68.3% ⬆️   |
 | Maximum Time | 1 532 ms      | 2 883 ms          | +88.1% ⬆️   |
 | Summary Time | 60 440 ms     | 98 142 ms         | +62.3% ⬆️   |
 
-We can see that the performance of the first experiment decreased compared to the baseline. The average time increased from 201.466ms to 327.14ms, and the maximum time increased significantly from 1 532ms to 2 883ms.
+We can see that the performance of the first experiment decreased compared to the baseline. The average time increased from 201 ms to 327 ms, and the maximum time increased significantly from 1 532 ms to 2 883 ms.
 
 ### 2.3 Discussion
 <!-- Codesize increased -->
@@ -107,12 +107,12 @@ Let's compare the results of the second experiment with the baseline performance
 
 | Metric       | Baseline (ms) | Experiment 1 (ms) | Experiment 2 (ms) | Change (%) |
 | ------------ | ------------- | ----------------- | ----------------- | ---------- |
-| Average Time | 201.466 ms    | 327.14 ms         | 292.2 ms          | -10.7% ⬇️   |
+| Average Time | 201 ms        | 327 ms            | 292.2 ms          | -10.7% ⬇️   |
 | Minimum Time | 173 ms        | 291 ms            | 261 ms            | -10.3% ⬇️   |
 | Maximum Time | 1 532 ms      | 2 883 ms          | 2 393 ms          | -16.9% ⬇️   |
 | Summary Time | 60 440 ms     | 98 142 ms         | 87 660 ms         | -10.7% ⬇️   |
 
-We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327.14ms to 292.2ms, and the maximum time decreased from 2 883ms to 2 393ms.
+We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327 ms to 292.2 ms, and the maximum time decreased from 2 883 ms to 2 393 ms.
 
 In comparison to the baseline performance, the second experiment still shows a performance decrease, but it is an improvement over the first experiment.
 
