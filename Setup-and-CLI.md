@@ -8,6 +8,8 @@ Follow the GraalVM installation guide [3] for step-by-step instructions on insta
 
 ## Setup TruffleSqueak
 
+Clone the Trufflesqueak repository recursively from GitHub to download the existing images too.
+
 Follow the TruffleSqueak setup guide [2] for step-by-step instructions on setting up the TruffleSqueak project. The setup guide provides instructions for different operating systems and IDEs.
 
 To build the TruffleSqueak executable, we use the `⁠mx` tool, which is part of the GraalVM ecosystem [1]. We call `mx` when the current working directory is the `trufflesqueak` directory with `../mx/mx`.
