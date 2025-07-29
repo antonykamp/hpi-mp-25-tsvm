@@ -56,7 +56,7 @@ The FMC diagram visualizes the Truffle language implementation processing.
 ### HotSpotVM and GraalVM
 
 - The HotSpotVM is the Java Virtual Machine that executes the Guest Language Application.
-- It uses the GraalVM as a JIT compiler to optimize the execution of the guest language code.
+- GraalVM access the compilation process in the HotSpotVM to optimize the execution of the guest language code.
 - The GraalVM applies advanced and speculative optimizations to improve performance [1,5].
 
 ## GraalVM Compilation Process
@@ -67,7 +67,7 @@ Given a JVM bytecode, you can use GraalVM to run and optimize it. The FMC diagra
 
 ### HotSpotVM
 
-- The HotSpotVM works as Java Virtual Machine (JVM) and executes Java applications using tiered compilation.
+- The HotSpotVM works as Java Virtual Machine (JVM) and can execute regular Java applications using tiered compilation.
 - Initially, the interpreter runs the bytecode. As the code becomes "hot," it is compiled first with the client compiler (C1) and later with the server compiler (C2) [7].
 
 ### Java Virtual Machine Compiler Interface (JVMCI)
