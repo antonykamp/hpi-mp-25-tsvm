@@ -137,7 +137,12 @@ In comparison to the baseline performance, the second experiment still shows a p
 
 <!-- Not fast now -->
 <!-- TruffleString is optimized for big strings and big operations -->
+We replaced in the first experiment the `ByteString` storage with `TruffleString`, which resulted in a performance decrease compared to the baseline performance. In the second experiment, we extended the implementation to also replace the `ByteArray` storage with `TruffleString`, which improved the performance compared to the first experiment but still did not reach the baseline performance.
+
+Reason for the performance decrease is that the `TruffleString` class is optimized for complex string operations that benefit from vector representation and parallelism. The current implementation of `TruffleString` does not leverage these optimizations effectively, because it uses simple byte-wise operations instead of more complex string operations. This is because of the atomicity of the existing Squeak primitives.
 
 ## Future Work
 
 <!-- Idea: Would have to add (failing for OSVM) primitives to higher level functions to use the TruffleString features -->
+
+To fully leverage the capabilities of `TruffleString`, we would need to add higher-level primitives that utilize the advanced features of `TruffleString`, such as substring operations, indexOf, and other string manipulations. This would allow us to take advantage of the performance benefits provided by the Truffle framework.
