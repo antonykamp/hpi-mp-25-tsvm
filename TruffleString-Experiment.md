@@ -30,7 +30,7 @@ To compare the performance of string operations, we decided to use the `JSON Ben
 The command to run the benchmark is as follows:
 
 ```bash
-trufflesqueak --experimental-options --smalltalk.disable-startup --smalltalk.disable-interrupts --engine.Mode=default --engine.TraceCompilation --compiler.TracePerformanceWarnings=call,instanceof,store,trivial --engine.CompilationFailureAction=Print --engine.CompilationStatistics --log.file="./Json.trace.log" --quiet --code "AWFYHarness run: #('Json' 300 100)"
+trufflesqueak --experimental-options --smalltalk.disable-startup --smalltalk.disable-interrupts --engine.Mode=default --code "AWFYHarness run: #('Json' 300 100)"
 ```
 
 We run the benchmark on a machine with the following specifications:
