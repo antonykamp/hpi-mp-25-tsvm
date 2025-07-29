@@ -24,4 +24,5 @@
 ## Other
 
 - [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232): Framework for cross-language compiler benchmarking, which we used to benchmark our implementation.
-
+- [TruffleStrings: a Highly Optimized
+Cross-Language String Implementation](https://graalworkshop.github.io/2022/slides/4_TruffleStrings.pdf): Presentation about the TruffleString class, which we used as a reference for our implementation.
