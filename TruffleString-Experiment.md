@@ -42,12 +42,12 @@ We run the benchmark on a machine with the following specifications:
 
 The results of the benchmark are as follows:
 
-| Metric       | Baseline  |
-| ------------ | --------- |
-| Average Time | 201 ms    |
-| Minimum Time | 173 ms    |
-| Maximum Time | 1 532 ms  |
-| Summary Time | 60 440 ms |
+| Metric       | Baseline (ms) |
+| ------------ | ------------- |
+| Average Time | 201 ms        |
+| Minimum Time | 173 ms        |
+| Maximum Time | 1 532 ms      |
+| Summary Time | 60 440 ms     |
 
 ### 1.3 Experiment Goals
 <!-- Improved performance for string operations -->
