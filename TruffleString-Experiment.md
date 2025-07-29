@@ -270,7 +270,7 @@ Reason for the performance decrease is that the `TruffleString` class is optimiz
 
 To fully leverage the capabilities of `TruffleString`, we would need to add higher-level primitives that utilize the advanced features of `TruffleString`, such as substring operations, indexOf, and other string manipulations. This would allow us to take advantage of the performance benefits provided by the Truffle framework.
 
-## 7. References
+## 6. References
 
 Last accessed: 2025-07-29
 
