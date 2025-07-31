@@ -8,7 +8,7 @@
 <!-- How primitives and non primitives are represented -->
 <!-- TruffleString class and its role in the Truffle framework -->
 
-TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. Each Squeak object is represented as a Java object.
+TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. We worked with TruffleSqueak 24.2.2 [9]. Each Squeak object is represented as a Java object.
 
 This experiment focuses on the data representation of Smalltalk objects in Java. We differentiate between primitives (i.e. `ClassObject`) and non-primitives (i.e. `ByteString`, `ByteArray`, etc.). Primitive classes have a direct mapping to Java classes.
 
@@ -246,11 +246,11 @@ b := a copy.
 [100 timesRepeat: [a = b]] timeToRunWithoutGC
 ```
 
-We ran this micro benchmark on the same machine as the JSON benchmark. The results are as follows:
+We ran this micro benchmark on the same machine as the JSON benchmark. Additionally, we executed it on the OpenSmalltalkVM 6.0 [8]. The results are as follows:
 
-| Metric  | Baseline (ms) | Experiment 2 (ms) | Change (%) |
-| ------- | ------------- | ----------------- | ---------- |
-| Summary | 594 ms        | 57 ms             | -90.4% ⬇️   |
+| Metric  | OSVM  | Baseline (ms) | Experiment 2 (ms) | Change to OSVM (%) | Change to Baseline (%) |
+| ------- | ----- | ------------- | ----------------- | ------------------ | ---------------------- |
+| Summary | 359ms | 594 ms        | 57 ms             | -39.5% ⬇️           | -90.4% ⬇️               |
 
 This micro benchmark indicates potential performance improvements when using `TruffleString` for complex string operations. The difference between this result and the JSON benchmark suggests that to fully realize the benefits of `TruffleString`, Squeak's string primitives need to be restructured to operate at higher abstraction levels that can utilize vectorization and parallelism.
 
@@ -272,7 +272,6 @@ To fully leverage the capabilities of `TruffleString`, we would need to add high
 
 ## 6. References
 
-
 - [1] [LCTLCT (Legendary compilation trace log comparison tool)](https://github.com/Olliwehr/LCTLCT)
 - [2] [Optimizing Truffle Interpreters](https://github.com/oracle/graal/blob/master/truffle/docs/Optimizing.md)
 - [3] [Ideal Graph Visualizer (IGV)](https://www.graalvm.org/latest/tools/igv/)
@@ -280,5 +279,6 @@ To fully leverage the capabilities of `TruffleString`, we would need to add high
 - [5] [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232)
 - [6] [Exploratory tool-building platforms for polyglot virtual machines, Niephaus, 2022](https://publishup.uni-potsdam.de/frontdoor/index/index/docId/57177)
 - [7] [TruffleString Documentation](https://github.com/oracle/graal/blob/master/truffle/docs/TruffleStrings.md)
-
+- [8] [OpenSmalltalk](https://squeak.org/)
+- [9] [TruffleSqueak Version 24.2.2](https://github.com/hpi-swa/trufflesqueak/releases/tag/24.2.2)
 Last visited: 2025-07-29
