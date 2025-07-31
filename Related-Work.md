@@ -2,6 +2,8 @@
 
 > This document provides a collection of papers and resources related to the project, including research papers, technical reports, and other relevant publications. They helped us understand the context and background of the project.
 
+Last visited: 2025-07-24
+
 ## Virtual Machines & Applications
 
 - [The Architecture of Virtual Machines](https://minds.wisconsin.edu/bitstream/handle/1793/11154/file_1.pdf;jsessionid=9693E61A05F6E2A17502C38D9BC6202C?sequence=1): Gives a great overview over the Architecture of VMs.
