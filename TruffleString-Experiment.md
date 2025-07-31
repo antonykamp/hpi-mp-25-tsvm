@@ -200,7 +200,7 @@ We analyzed the compilation statistics again to understand the performance impro
 
 | Metric           | Tier | Baseline      | Experiment 1  | Experiment 2    | Change to Baseline (%) | Change to Experiment 1 (%) |
 | ---------------- | ---- | ------------- | ------------- | --------------- | ---------------------- | -------------------------- |
-| Compilation Time | 1    | 6 948 955 ms  | 8 333 508 ms  | 8 162 938 ms    | +117.5% ⬆️              | -2.1% ⬇️                    |
+| Compilation Time | 1    | 6 948 955 ms  | 8 333 508 ms  | 8 162 938 ms    | +17.5% ⬆️               | -2.1% ⬇️                    |
 | Compilation Time | 2    | 10 044 058 ms | 21 799 170 ms | 23 663 382 ms   | +136.5% ⬆️              | +8.5% ⬆️                    |
 | Code Size        | 1    | 304 688 bytes | 325 563 bytes | 32 5014 bytes   | +6.7% ⬆️                | -0.2% ⬇️                    |
 | Code Size        | 2    | 742 502 bytes | 946 422 bytes | 1 000 615 bytes | +34.5% ⬆️               | +5.3% ⬆️                    |
