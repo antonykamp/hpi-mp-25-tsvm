@@ -8,13 +8,10 @@
 <!-- How primitives and non primitives are represented -->
 <!-- TruffleString class and its role in the Truffle framework -->
 
-TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. We worked with TruffleSqueak 24.2.2 [9]. Each Squeak object is represented as a Java object.
+TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. We worked with TruffleSqueak 24.2.2 [9]. Each Smalltalk object is represented as a Java object.
 
-This experiment focuses on the data representation of Smalltalk objects in Java. We differentiate between primitives (i.e. `ClassObject`) and non-primitives (i.e. `ByteString`, `ByteArray`, etc.). Primitive classes have a direct mapping to Java classes.
-
-![Primitive Object Representation, Example: `ClassObject`](img/graal-fmc-primitive.drawio.png)
-
-Non-primitive classes are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains a `storage` and `class` object. The `storage` contains the actual data, while the `class` object provides metadata about the object type. Different non-primitive classes have different storage types, such as `WideString` uses `int[]` and `ByteString` uses `byte[]`.
+This experiment focuses on how Smalltalk objects are represented in Java, particularly the representation of indexable Smalltalk objects like strings, arrays, and byte arrays.
+Those are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains among other fields a `storage` and a `squeakClass` object. The `storage` contains the actual data, while the `squeakClass` object provides metadata about the object type. Different indexable objects have different storage types, such as `WideString` uses `int[]` and `ByteString` uses `byte[]`.
 
 ![Non-Primitive Object Representation, Example: `WideString`, `ByteArray`, `ByteString`](img/graal-fmc-nativeobject.drawio.png)
 
@@ -106,7 +103,7 @@ The following table summarizes the compilation statistics for the first experime
 | Code Size        | 1    | 304 688 bytes | 325 563 bytes | +6% ⬆️      |
 | Code Size        | 2    | 742 502 bytes | 946 422 bytes | +27% ⬆️     |
 
-The compilation statistics show that the code size increased significantly in the first experiment. The compilation time also increased, which indicates that the compiler had to do more work to optimize the code. Larger code size and longer compilation time can lead to slower runtime performance, as the compiler has to spend more time optimizing the code.
+The compilation statistics show that the code size increased significantly in the first experiment. The compilation time also increased, which indicates that the compiler had to do more work to optimize the code. Larger code size and longer compilation time can lead to slower runtime performance, as caches are filled more quickly and more code needs to be processed during execution.
 
 Given the increased compilation time and code size, we want to improve it in the next experiment by identifying the causes of the performance degradation. We identified with the trace compilation logs and LCTLCT that the code size of the string comparison method `String>>#compareWith:` increased.
 
@@ -171,14 +168,14 @@ In the second experiment, we extended the implementation of the first experiment
 <!-- Performance improved to v1 -->
 Let's compare the results of the second experiment with the baseline performance and the first experiment:
 
-| Metric       | Baseline (ms) | Experiment 1 (ms) | Experiment 2 (ms) | Change (%) |
-| ------------ | ------------- | ----------------- | ----------------- | ---------- |
-| Average Time | 201 ms        | 327 ms            | 292.2 ms          | -10.7% ⬇️   |
-| Minimum Time | 173 ms        | 291 ms            | 261 ms            | -10.3% ⬇️   |
-| Maximum Time | 1 532 ms      | 2 883 ms          | 2 393 ms          | -16.9% ⬇️   |
-| Summary Time | 60 440 ms     | 98 142 ms         | 87 660 ms         | -10.7% ⬇️   |
+| Metric       | Baseline (ms) | Experiment 1 (ms) | Experiment 2 (ms) | Change to Baseline (%) | Change to Experiment 1 (%) |
+| ------------ | ------------- | ----------------- | ----------------- | ---------------------- | -------------------------- |
+| Average Time | 201 ms        | 327 ms            | 292 ms            | +45.3% ⬆️               | -10.7% ⬇️                   |
+| Minimum Time | 173 ms        | 291 ms            | 261 ms            | +50.3% ⬆️               | -10.3% ⬇️                   |
+| Maximum Time | 1 532 ms      | 2 883 ms          | 2 393 ms          | +56.2% ⬆️               | -16.9% ⬇️                   |
+| Summary Time | 60 440 ms     | 98 142 ms         | 87 660 ms         | +45.3% ⬆️               | -10.7% ⬇️                   |
 
-We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327 ms to 292.2 ms, and the maximum time decreased from 2 883 ms to 2 393 ms.
+We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327 ms to 292 ms, and the maximum time decreased from 2 883 ms to 2 393 ms.
 
 ### 3.3 Discussion
 
@@ -201,21 +198,21 @@ The table indicates that the second experiment still shows a performance decreas
 
 We analyzed the compilation statistics again to understand the performance improvements. The following table summarizes the compilation statistics for the second experiment compared to the baseline performance and the first experiment:
 
-| Metric           | Tier | Baseline      | Experiment 1  | Experiment 2  | Change (%) |
-| ---------------- | ---- | ------------- | ------------- | ------------- | ---------- |
-| Compilation Time | 1    | 6 948 955 ms  | 8 333 508 ms  | 8 162 938 ms  | -2.1% ⬇️    |
-| Compilation Time | 2    | 10 044 058 ms | 21 799 170 ms | 23 663 382 ms | +8.5% ⬆️    |
-| Code Size        | 1    | 304 688 bytes | 325 563 bytes | 325014 bytes  | -0.2% ⬇️    |
-| Code Size        | 2    | 742 502 bytes | 946 422 bytes | 1000615 bytes | +5.3% ⬆️    |
+| Metric           | Tier | Baseline      | Experiment 1  | Experiment 2    | Change to Baseline (%) | Change to Experiment 1 (%) |
+| ---------------- | ---- | ------------- | ------------- | --------------- | ---------------------- | -------------------------- |
+| Compilation Time | 1    | 6 948 955 ms  | 8 333 508 ms  | 8 162 938 ms    | +17.5% ⬆️               | -2.1% ⬇️                    |
+| Compilation Time | 2    | 10 044 058 ms | 21 799 170 ms | 23 663 382 ms   | +136.5% ⬆️              | +8.5% ⬆️                    |
+| Code Size        | 1    | 304 688 bytes | 325 563 bytes | 325 014 bytes   | +6.7% ⬆️                | -0.2% ⬇️                    |
+| Code Size        | 2    | 742 502 bytes | 946 422 bytes | 1 000 615 bytes | +34.5% ⬆️               | +5.3% ⬆️                    |
 
 The compilation statistics show an improvement of code size and compilation time in Tier 1, but an increase in Tier 2. It is still larger in comparison to the baseline performance, which indicates that the compiler had to do more work to optimize the code. This may be, because we replace byte operations with TruffleString operations. These are represented as nodes, which are more complex and require more compilation time.
 
 The goal of the second experiment was to reduce the code size of the `String>>#compareWith:` method. The code size of the `String>>#compareWith:` method for the second experiment is as follows:
 
-| Metric    | Tier | Baseline    | Experiment 1 | Experiment 2  | Change (%) |
-| --------- | ---- | ----------- | ------------ | ------------- | ---------- |
-| Code Size | 1    | 2 040 bytes | 10 840 bytes | 8 276 bytes ⬆️ | -23.6% ⬇️   |
-| Code Size | 2    | 897 bytes   | 6 839 bytes  | 4 403 bytes   | -36.0% ⬇️   |
+| Metric    | Tier | Baseline    | Experiment 1 | Experiment 2 | Change to Baseline (%) | Change to Experiment 1 (%) |
+| --------- | ---- | ----------- | ------------ | ------------ | ---------------------- | -------------------------- |
+| Code Size | 1    | 2 040 bytes | 10 840 bytes | 8 276 bytes  | +405.7% ⬆️              | -23.6% ⬇️                   |
+| Code Size | 2    | 897 bytes   | 6 839 bytes  | 4 403 bytes  | +491.4% ⬆️              | -36.0% ⬇️                   |
 
 We can see that the code size of the `String>>#compareWith:` method decreased significantly in the second experiment compared to the first experiment. This indicates that the method was optimized better, leading to a smaller code size and improved performance.
 
