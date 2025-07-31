@@ -109,4 +109,4 @@ To run a Squeak unittest test, you can use the following command. In this exampl
 - [5] [Cross-language compiler benchmarking: are we fast yet?](https://dl.acm.org/doi/10.1145/2989225.2989232)
 - [6] [Optimizing Truffle Interpreter](https://github.com/oracle/graal/blob/master/truffle/docs/Optimizing.md)
 
-State: 2025-07-24
+Last visited: 2025-07-24
