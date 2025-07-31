@@ -8,10 +8,10 @@
 <!-- How primitives and non primitives are represented -->
 <!-- TruffleString class and its role in the Truffle framework -->
 
-TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. We worked with TruffleSqueak 24.2.2 [9]. Each Squeak object is represented as a Java object.
+TruffleSqueak is a Squeak implementation on the GraalVM Truffle framework [6]. It aims to leverage the performance and language interoperability benefits of Truffle while maintaining compatibility with Squeak's features. We worked with TruffleSqueak 24.2.2 [9]. Each Smalltalk object is represented as a Java object.
 
 This experiment focuses on how Smalltalk objects are represented in Java, particularly the representation of indexable Smalltalk objects like strings, arrays, and byte arrays.
-They are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains among other fields a `storage` and a `squeakClass` object. The `storage` contains the actual data, while the `squeakClass` object provides metadata about the object type. Different indexable objects have different storage types, such as `WideString` uses `int[]` and `ByteString` uses `byte[]`.
+Those are represented by Java objects of the class `NativeObject` that encapsulate the data. Each `NativeObject` instance contains among other fields a `storage` and a `squeakClass` object. The `storage` contains the actual data, while the `squeakClass` object provides metadata about the object type. Different indexable objects have different storage types, such as `WideString` uses `int[]` and `ByteString` uses `byte[]`.
 
 ![Non-Primitive Object Representation, Example: `WideString`, `ByteArray`, `ByteString`](img/graal-fmc-nativeobject.drawio.png)
 
