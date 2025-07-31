@@ -175,7 +175,7 @@ Let's compare the results of the second experiment with the baseline performance
 | Maximum Time | 1 532 ms      | 2 883 ms          | 2 393 ms          | +56.2% ⬆️               | -16.9% ⬇️                   |
 | Summary Time | 60 440 ms     | 98 142 ms         | 87 660 ms         | +45.3% ⬆️               | -10.7% ⬇️                   |
 
-We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327 ms to 292.2 ms, and the maximum time decreased from 2 883 ms to 2 393 ms.
+We can see that the performance of the second experiment improved compared to the first experiment. The average time decreased from 327 ms to 292 ms, and the maximum time decreased from 2 883 ms to 2 393 ms.
 
 ### 3.3 Discussion
 
